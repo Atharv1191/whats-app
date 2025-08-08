@@ -12,7 +12,7 @@ const ChatWindow = ({ chat }) => {
     if (!chat) return;
     const fetchMessages = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/messages/${chat.wa_id}`);
+        const res = await fetch(`https://whats-app-theta.vercel.app/api/messages/${chat.wa_id}`);
         const data = await res.json();
         setMessages(data);
       } catch (error) {
@@ -30,7 +30,7 @@ const ChatWindow = ({ chat }) => {
     if (!text.trim()) return;
     setLoading(true);
     try {
-      await fetch('http://localhost:5000/api/send', {
+      await fetch('https://whats-app-theta.vercel.app/api/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -41,7 +41,7 @@ const ChatWindow = ({ chat }) => {
       });
       setText('');
       setImage(null);
-      const res = await fetch(`http://localhost:5000/api/messages/${chat.wa_id}`);
+      const res = await fetch(`https://whats-app-theta.vercel.app/api/messages/${chat.wa_id}`);
       const updatedMessages = await res.json();
       setMessages(updatedMessages);
     } catch (error) {

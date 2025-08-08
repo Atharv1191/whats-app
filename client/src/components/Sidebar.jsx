@@ -24,7 +24,7 @@ export default function Sidebar({ chats, onChatSelect, selectedWaId, SidebarOpen
             key={chat.wa_id}
             onClick={() => {
               onChatSelect(chat)
-              setSidebarOpen(false) // auto-close on mobile after selecting
+              setSidebarOpen(false) 
             }}
             className={`cursor-pointer p-3 rounded hover:bg-gray-100 ${
               chat.wa_id === selectedWaId ? 'bg-gray-200 font-medium' : ''
