@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ImageIcon, SendHorizonal } from 'lucide-react';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL; // ✅ use env variable
+
 const ChatWindow = ({ chat }) => {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
@@ -12,7 +14,7 @@ const ChatWindow = ({ chat }) => {
     if (!chat) return;
     const fetchMessages = async () => {
       try {
-        const res = await fetch(`https://whats-app-theta.vercel.app/api/messages/${chat.wa_id}`);
+        const res = await fetch(`${API_BASE_URL}/api/messages/${chat.wa_id}`);
         const data = await res.json();
         setMessages(data);
       } catch (error) {
@@ -30,7 +32,7 @@ const ChatWindow = ({ chat }) => {
     if (!text.trim()) return;
     setLoading(true);
     try {
-      await fetch('https://whats-app-theta.vercel.app/api/send', {
+      await fetch(`${API_BASE_URL}/api/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -41,7 +43,7 @@ const ChatWindow = ({ chat }) => {
       });
       setText('');
       setImage(null);
-      const res = await fetch(`https://whats-app-theta.vercel.app/api/messages/${chat.wa_id}`);
+      const res = await fetch(`${API_BASE_URL}/api/messages/${chat.wa_id}`);
       const updatedMessages = await res.json();
       setMessages(updatedMessages);
     } catch (error) {

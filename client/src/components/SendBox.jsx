@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-const API_BASE_URL = "https://whats-app-theta.vercel.app/api";
+// Use API URL from environment variables
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function SendBox({ wa_id, name, onSend }) {
   const [text, setText] = useState("");
@@ -13,7 +14,7 @@ export default function SendBox({ wa_id, name, onSend }) {
     setLoading(true);
 
     try {
-      await fetch(`${API_BASE_URL}/send`, {
+      await fetch(`${API_BASE_URL}/api/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ wa_id, name, text }),
@@ -28,7 +29,10 @@ export default function SendBox({ wa_id, name, onSend }) {
   };
 
   return (
-    <form onSubmit={handleSend} className="p-4 border-t bg-white flex items-center gap-3">
+    <form
+      onSubmit={handleSend}
+      className="p-4 border-t bg-white flex items-center gap-3"
+    >
       <input
         type="text"
         placeholder="Type a message"
