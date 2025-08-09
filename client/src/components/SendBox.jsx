@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-// Use API URL from environment variables
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+// ✅ Get API URL from .env and remove any trailing slash
+const API_BASE_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 export default function SendBox({ wa_id, name, onSend }) {
   const [text, setText] = useState("");
@@ -14,11 +14,14 @@ export default function SendBox({ wa_id, name, onSend }) {
     setLoading(true);
 
     try {
-      await fetch(`${API_BASE_URL}/api/send`, {
+      const res = await fetch(`${API_BASE_URL}/api/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ wa_id, name, text }),
       });
+
+      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+
       setText("");
       if (onSend) onSend();
     } catch (err) {
